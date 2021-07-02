@@ -46,10 +46,10 @@ class PropelExtension extends Extension
                 $config['generator']['defaultConnection'] = $defaultConnection;
             }
         }
-        $config['usesDatabaseLoaderScript'] = $this->usesDatabaseLoaderScript();
 
         $container->setParameter('propel.logging', $config['runtime']['logging']);
         $container->setParameter('propel.configuration', $config);
+        $container->setParameter('propel.usesDatabaseLoaderScript') = $this->usesDatabaseLoaderScript();
 
         // Load services
         if (!$container->hasDefinition('propel')) {

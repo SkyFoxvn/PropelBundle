@@ -53,8 +53,10 @@ class ModelBuildCommand extends WrappedCommand
         $arguments = [];
         $arguments['--output-dir'] = $this->getApplication()->getKernel()->getProjectDir().'/';
 
-        $config = $this->getContainer()->getParameter('propel.configuration');
-        if($config['usesDatabaseLoaderScript']) {
+        $container = $this->getContainer();
+        $usesScript = $container->getParameter('propel.usesDatabaseLoaderScript');
+        if($usesScript) {
+            $config = $container->getParameter('propel.configuration');
             $arguments['--loader-script-dir'] = $config['paths']['loaderScriptDir'];
         }
 

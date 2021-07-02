@@ -41,7 +41,6 @@ class PropelBundleTest extends TestCase
         }
         $actualReturn = $this->runDatabaseLoaderScriptImport($usesScript, $loaderScriptDir);
         $this->assertSame($expectedReturn, $actualReturn, $message);
-        
     }
 
     public static function importDatabaseLoaderScriptDataProvider(): array
@@ -49,12 +48,12 @@ class PropelBundleTest extends TestCase
         return [
             // [<uses script>, <script dir>, <exception class>, <expected return>, <message>]
             [false, '', null, false, 'Should not import script if not set in configuration'],
-            [true, '/this/dir/does/not/exists/bababui/bababui/', Exception::class, null, 'Should throw exception if scritps dir does not exist'],
+            [true, '/this/dir/does/not/exists/bababui/bababui/', Exception::class, null, 'Should throw exception if scripts dir does not exist'],
             [true, __DIR__ . '/Fixtures', null, true, 'Should import script']
         ];
     }
     
-    public function runDatabaseLoaderScriptImport(bool $usesScirpt, string $loaderScriptDir=''): bool
+    public function runDatabaseLoaderScriptImport(bool $usesScript, string $loaderScriptDir=''): bool
     {
         $bundle = new class() extends PropelBundle{
             public function runImport(): bool
@@ -64,7 +63,6 @@ class PropelBundleTest extends TestCase
         };
 
         $config = [
-            'usesDatabaseLoaderScript' => $usesScirpt,
             'paths' => [
                 'loaderScriptDir' => $loaderScriptDir
             ]
@@ -72,6 +70,7 @@ class PropelBundleTest extends TestCase
         
         $container = new Container();
         $container->setParameter('propel.configuration', $config);
+        $container->setParameter('propel.usesDatabaseLoaderScript', $usesScript);
         $bundle->setContainer($container);
 
         return $bundle->runImport();

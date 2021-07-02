@@ -89,12 +89,18 @@ class PropelBundle extends Bundle
         }
     }
 
+    /**
+     * @throws \Exception
+     *
+     * @return bool Indicates if the script was imported. Needed for testing.
+     */
     protected function importDatabaseLoaderScript(): bool
     {
-        $config = $this->container->getParameter('propel.configuration');
-        if(!$config['usesDatabaseLoaderScript']) {
+        $usesScript = $this->container->getParameter('propel.usesDatabaseLoaderScript');
+        if(!$usesScript) {
             return false;
         }
+        $config = $this->container->getParameter('propel.configuration');
         $scriptDir = $config['paths']['loaderScriptDir'];
         $scriptPath = $scriptDir . '/loadDatabase.php';
         if(!file_exists($scriptPath)) {
