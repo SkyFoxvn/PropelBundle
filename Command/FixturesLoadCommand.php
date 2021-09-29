@@ -168,7 +168,7 @@ EOT
 
         $datas = $this->getFixtureFiles($type);
 
-        if (count(iterator_to_array($datas)) === 0) {
+        if (count($datas) === 0) {
             return -1;
         }
 
@@ -278,7 +278,7 @@ EOT
      * @param string $in   The directory in which we search the files. If null,
      *                     we'll use the absoluteFixturesPath property.
      *
-     * @return \Iterator An iterator through the files.
+     * @return array The files.
      */
     protected function getFixtureFiles($type = 'sql', $in = null)
     {
@@ -290,17 +290,22 @@ EOT
         $files = $finder->in(null !== $in ? $in : $this->absoluteFixturesPath);
 
         if (null === $this->bundle) {
-            return $files;
+            $finalFixtureFiles = [];
+            foreach ($files as $file) {
+                $finalFixtureFiles[] = new \SplFileInfo($file);
+            }
+
+            return $finalFixtureFiles;
         }
 
-        $finalFixtureFiles = array();
+        $finalFixtureFiles = [];
         foreach ($files as $file) {
             $fixtureFilePath = str_replace($this->getFixturesPath($this->bundle) . DIRECTORY_SEPARATOR, '', $file->getRealPath());
             $logicalName = sprintf('@%s/Resources/fixtures/%s', $this->bundle->getName(), $fixtureFilePath);
             $finalFixtureFiles[] = new \SplFileInfo($this->getFileLocator()->locate($logicalName));
         }
 
-        return new \ArrayIterator($finalFixtureFiles);
+        return $finalFixtureFiles;
     }
 
     /**
