@@ -418,7 +418,7 @@ abstract class BookQuery extends ModelCriteria
      * @param  ConnectionInterface $con the connection to use
      * @return int                 The number of affected rows (if supported by underlying database driver).
      */
-    public function doDeleteAll(ConnectionInterface $con = null)
+    public function doDeleteAll(ConnectionInterface $con = null): int
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(BookTableMap::DATABASE_NAME);
@@ -455,7 +455,7 @@ abstract class BookQuery extends ModelCriteria
      * @throws PropelException     Any exceptions caught during processing will be
      *                                    rethrown wrapped into a PropelException.
      */
-     public function delete(ConnectionInterface $con = null)
+     public function delete(ConnectionInterface $con = null): int
      {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(BookTableMap::DATABASE_NAME);

@@ -133,7 +133,7 @@ class BookTableMap extends TableMap
      * @return void
      * @throws PropelException
      */
-    public function initialize()
+    public function initialize(): void
     {
         // attributes
         $this->setName('book');
@@ -152,7 +152,7 @@ class BookTableMap extends TableMap
     /**
      * Build the RelationMap objects for this table relationships
      */
-    public function buildRelations()
+    public function buildRelations(): void
     {
     } // buildRelations()
 
