@@ -26,6 +26,8 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.MY_PAT }}
 
       - name: Composer get cache directory
         id: composer-cache
@@ -47,5 +49,8 @@ jobs:
       - name: Code Coverage Report
         uses: codecov/codecov-action@v2
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ matrix.php-version }}, ${{ matrix.symfony-version }}
           file: Tests/coverage.xml
+          fail_ci_if_error: true
+          verbose: true
