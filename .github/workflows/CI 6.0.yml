@@ -43,7 +43,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Composer update (Symfony version ${{ matrix.symfony-version }})
-        run: composer update --prefer-source
+        run: composer install --prefer-source
 
       - name: Run tests
         run: vendor/bin/phpunit --verbose --coverage-clover=Tests/coverage.xml
