@@ -46,7 +46,7 @@ jobs:
         run: composer update --prefer-source
 
       - name: Run tests
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --verbose --coverage-clover=Tests/coverage.xml
 
       - name: Code Coverage Report
         uses: codecov/codecov-action@v2
