@@ -27,30 +27,11 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 abstract class AbstractCommand extends Command
 {
-    /**
-     * @var ?string
-     */
-    protected $cacheDir = null;
-
-    /**
-     * @var ?BundleInterface
-     */
-    protected $bundle = null;
-
-    /**
-     * @var InputInterface
-     */
-    protected $input;
-
-    /**
-     * @var OutputInterface
-     */
-    protected $output;
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    protected ?string $cacheDir = null;
+    protected ?BundleInterface $bundle = null;
+    protected InputInterface $input;
+    protected OutputInterface $output;
+    private ContainerInterface $container;
 
     use FormattingHelpers;
 

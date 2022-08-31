@@ -28,21 +28,18 @@ class FixturesLoadCommand extends AbstractCommand
 {
     /**
      * Default fixtures directory.
-     * @var string
      */
-    private $defaultFixturesDir = 'propel/fixtures';
+    private string $defaultFixturesDir = 'propel/fixtures';
 
     /**
      * Absolute path for fixtures directory
-     * @var string
      */
-    private $absoluteFixturesPath = '';
+    private string $absoluteFixturesPath = '';
 
     /**
      * Filesystem for manipulating files
-     * @var \Symfony\Component\Filesystem\Filesystem
      */
-    private $filesystem = null;
+    private ?\Symfony\Component\Filesystem\Filesystem $filesystem = null;
 
     /**
      * @see Command

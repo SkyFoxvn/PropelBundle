@@ -25,9 +25,8 @@ class FixturesDumpCommand extends AbstractCommand
 {
     /**
      * Default fixtures directory.
-     * @var string
      */
-    protected $defaultFixturesDir = 'propel/fixtures';
+    protected string $defaultFixturesDir = 'propel/fixtures';
 
     /**
      * @see Command

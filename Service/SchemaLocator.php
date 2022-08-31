@@ -18,12 +18,10 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class SchemaLocator
 {
-    /** @var ContainerInterface */
-    protected $container;
-    /** @var FileLocatorInterface */
-    protected $fileLocator;
+    protected ContainerInterface $container;
+    protected FileLocatorInterface $fileLocator;
     /** @var array{paths: array{schemaDir: string, sqlDir: string, migrationDir: string, composerDir: string, loaderScriptDir: string}} */
-    protected $configuration;
+    protected array $configuration;
 
     /**
      * @param ContainerInterface $container
