@@ -10,6 +10,7 @@
 
 namespace Propel\Bundle\PropelBundle\Controller;
 
+use Propel\Bundle\PropelBundle\DataCollector\PropelDataCollector;
 use Propel\Runtime\Propel;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,7 +26,7 @@ class PanelController extends AbstractController
     /**
      * This method renders the global Propel configuration.
      */
-    public function configurationAction()
+    public function configurationAction(): Response
     {
         return $this->render(
             '@Propel/Panel/configuration.html.twig',
@@ -47,12 +48,15 @@ class PanelController extends AbstractController
      * @param Profiler|null $profiler
      * @return Response A Response instance
      */
-    public function explainAction($token, $connection, $query, ?Profiler $profiler)
+    public function explainAction(string $token, string $connection, int $query, ?Profiler $profiler): Response
     {
         $profiler->disable();
 
         $profile = $profiler->loadProfile($token);
-        $queries = $profile->getCollector('propel')->getQueries();
+
+        /** @var PropelDataCollector $propelDataCollector */
+        $propelDataCollector = $profile->getCollector('propel');
+        $queries = $propelDataCollector->getQueries();
 
         if (!isset($queries[$query])) {
             return new Response('This query does not exist.');
@@ -64,6 +68,7 @@ class PanelController extends AbstractController
         try {
             $dataFetcher = $con->query('EXPLAIN ' . $queries[$query]['sql']);
             $results = array();
+            // @phpstan-ignore-next-line
             while (($results[] = $dataFetcher->fetch(\PDO::FETCH_ASSOC)));
         } catch (\Exception $e) {
             return new Response('<div class="error">This query cannot be explained.</div>');

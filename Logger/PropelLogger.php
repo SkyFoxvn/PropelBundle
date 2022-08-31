@@ -20,20 +20,11 @@ use Symfony\Component\VarDumper\Caster\TraceStub;
  */
 class PropelLogger implements LoggerInterface
 {
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
-
-    /**
-     * @var array
-     */
-    protected $queries = array();
-
-    /**
-     * @var Stopwatch
-     */
-    protected $stopwatch;
+    protected ?LoggerInterface $logger = null;
+    /** @var array<int, array{sql: string, connection: string, time: int|float, memory: int, trace: TraceStub}>  */
+    protected array $queries = array();
+    protected ?Stopwatch $stopwatch;
+    private bool $isPrepared;
 
     use LoggerTrait;
 
@@ -43,7 +34,7 @@ class PropelLogger implements LoggerInterface
      * @param LoggerInterface $logger    A LoggerInterface instance
      * @param Stopwatch       $stopwatch A Stopwatch instance
      */
-    public function __construct(LoggerInterface $logger = null, Stopwatch $stopwatch = null)
+    public function __construct(?LoggerInterface $logger = null, ?Stopwatch $stopwatch = null)
     {
         $this->logger    = $logger;
         $this->stopwatch = $stopwatch;
@@ -55,10 +46,9 @@ class PropelLogger implements LoggerInterface
      *
      * @param  mixed  $level
      * @param  string $message
-     * @param  array  $context
-     * @return null
+     * @param  array<mixed>  $context
      */
-    public function log($level, $message, array $context = array())
+    public function log($level, $message, array $context = array()): void
     {
         if (null === $this->logger) {
             return;
@@ -98,7 +88,10 @@ class PropelLogger implements LoggerInterface
         $this->logger->log($level, $message, $context);
     }
 
-    public function getQueries()
+    /**
+     * @return array<int, array{sql: string, connection: string, time: int|float, memory: int, trace: TraceStub}>
+     */
+    public function getQueries(): array
     {
         return $this->queries;
     }

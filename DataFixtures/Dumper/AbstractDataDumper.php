@@ -13,6 +13,7 @@ namespace Propel\Bundle\PropelBundle\DataFixtures\Dumper;
 use \PDO;
 use Propel\Bundle\PropelBundle\DataFixtures\AbstractDataHandler;
 use Propel\Generator\Model\PropelTypes;
+use Propel\Runtime\Map\ColumnMap;
 use Propel\Runtime\Propel;
 
 /**
@@ -25,20 +26,20 @@ abstract class AbstractDataDumper extends AbstractDataHandler implements DataDum
     /**
      * {@inheritdoc}
      */
-    public function dump($filename, $connectionName = null)
+    public function dump(?string $filename, string $connectionName = null): void
     {
         if (null === $filename || '' === $filename) {
-            throw new \Exception('Invalid filename provided.');
+            throw new \RuntimeException('Invalid filename provided.');
         }
 
         $this->loadMapBuilders($connectionName);
         $this->con = Propel::getConnection($connectionName);
 
-        $array = $this->getDataAsArray($connectionName);
+        $array = $this->getDataAsArray();
         $data  = $this->transformArrayToData($array);
 
         if (false === file_put_contents($filename, $data)) {
-            throw new \Exception(sprintf('Cannot write file: %s', $filename));
+            throw new \RuntimeException(sprintf('Cannot write file: %s', $filename));
         }
     }
 
@@ -47,18 +48,19 @@ abstract class AbstractDataDumper extends AbstractDataHandler implements DataDum
      * depending on the specialized dumper. It should return
      * a string content ready to write in a file.
      *
+     * @param array<string, array<string, array<string, mixed>>> $data
+     *
      * @return string
      */
-    abstract protected function transformArrayToData($data);
+    abstract protected function transformArrayToData(array $data): string;
 
     /**
      * Dumps data to fixture from a given connection and
      * returns an array.
      *
-     * @param  string $connectionName The connection name
-     * @return array
+     * @return array<string, array<string, array<string, mixed>>>
      */
-    protected function getDataAsArray()
+    protected function getDataAsArray(): array
     {
         $tables = array();
         foreach ($this->dbMap->getTables() as $table) {
@@ -151,7 +153,7 @@ abstract class AbstractDataDumper extends AbstractDataHandler implements DataDum
                                     $values[$col] = $relatedTable->getPhpName().'_'.$row[$col];
                                     $values[$col] = strlen($row[$col]) ? $relatedTable->getPhpName().'_'.$row[$col] : '';
                                 }
-                            } elseif (!$isPrimaryKey || ($isPrimaryKey && !$tableMap->isUseIdGenerator())) {
+                            } elseif (!$isPrimaryKey || !$tableMap->isUseIdGenerator()) {
                                 if (!empty($row[$col]) && PropelTypes::PHP_ARRAY === $column->getType()) {
                                     $serialized = substr($row[$col], 2, -2);
                                     $row[$col]  = $serialized ? explode(' | ', $serialized) : array();
@@ -183,10 +185,11 @@ abstract class AbstractDataDumper extends AbstractDataHandler implements DataDum
      * Fixes the ordering of foreign key data, by outputting data
      * a foreign key depends on before the table with the foreign key.
      *
-     * @param  array $classes The array with the class names
-     * @return array
+     * @param string[] $classes The array with the class names
+     *
+     * @return string[]
      */
-    protected function fixOrderingOfForeignKeyData($classes)
+    protected function fixOrderingOfForeignKeyData(array $classes): array
     {
         // reordering classes to take foreign keys into account
         for ($i = 0, $count = count($classes); $i < $count; $i++) {
@@ -217,7 +220,15 @@ abstract class AbstractDataDumper extends AbstractDataHandler implements DataDum
         return $classes;
     }
 
-    protected function fixOrderingOfForeignKeyDataInSameTable($resultsSets, $tableName, $column, $in = null)
+    /**
+     * @param array<int, array<string, mixed>> $resultsSets
+     * @param string $tableName
+     * @param ColumnMap $column
+     * @param string|null $in
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    protected function fixOrderingOfForeignKeyDataInSameTable(array $resultsSets, string $tableName, ColumnMap $column, ?string $in = null): array
     {
         $sql = sprintf('SELECT * FROM %s WHERE %s %s',
             constant(constant($tableName.'::TABLE_MAP').'::TABLE_NAME'),

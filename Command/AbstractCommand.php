@@ -170,7 +170,7 @@ abstract class AbstractCommand extends Command
      *
      * @return array<string, array{?BundleInterface, \SplFileInfo}> A list of schemas.
      */
-    protected function getFinalSchemas(KernelInterface $kernel, BundleInterface $bundle = null): array
+    protected function getFinalSchemas(KernelInterface $kernel, ?BundleInterface $bundle = null): array
     {
         if (null !== $bundle) {
             return $this->getSchemaLocator()->locateFromBundle($bundle);

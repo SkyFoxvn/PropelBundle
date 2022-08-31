@@ -22,7 +22,7 @@ class YamlDataDumper extends AbstractDataDumper
     /**
      * {@inheritdoc}
      */
-    protected function transformArrayToData($data)
+    protected function transformArrayToData(array $data): string
     {
         return Yaml::dump(
             $data,

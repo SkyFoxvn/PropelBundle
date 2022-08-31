@@ -14,6 +14,7 @@ use Propel\Bundle\PropelBundle\Logger\PropelLogger;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
+use Symfony\Component\VarDumper\Caster\TraceStub;
 
 /**
  * The PropelDataCollector collector class collects information.
@@ -22,7 +23,7 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
  */
 class PropelDataCollector extends DataCollector
 {
-    protected $logger;
+    protected PropelLogger $logger;
 
     public function __construct(PropelLogger $logger)
     {
@@ -32,7 +33,7 @@ class PropelDataCollector extends DataCollector
     /**
      * {@inheritdoc}
      */
-    public function collect(Request $request, Response $response, \Throwable $exception = null)
+    public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
         $this->data = array(
             'queries'       => $this->cloneVar($this->buildQueries()),
@@ -45,7 +46,7 @@ class PropelDataCollector extends DataCollector
      *
      * @return string The collector name.
      */
-    public function getName()
+    public function getName(): string
     {
         return 'propel';
     }
@@ -53,9 +54,9 @@ class PropelDataCollector extends DataCollector
     /**
      * Returns queries.
      *
-     * @return array Queries
+     * @return array<int, array{sql: string, connection: string, time: int|float, memory: int, trace: TraceStub}> Queries
      */
-    public function getQueries()
+    public function getQueries(): array
     {
         return $this->data['queries'];
     }
@@ -88,9 +89,9 @@ class PropelDataCollector extends DataCollector
     /**
      * Creates an array of Build objects.
      *
-     * @return array An array of Build objects
+     * @return array<int, array{sql: string, connection: string, time: int|float, memory: int, trace: TraceStub}> An array of Build objects
      */
-    private function buildQueries()
+    private function buildQueries(): array
     {
         return $this->logger->getQueries();
     }
@@ -100,7 +101,7 @@ class PropelDataCollector extends DataCollector
      *
      * @return int The number of queries.
      */
-    private function countQueries()
+    private function countQueries(): int
     {
         return count($this->logger->getQueries());
     }
@@ -108,7 +109,7 @@ class PropelDataCollector extends DataCollector
     /**
      * @inheritdoc
      */
-    public function reset()
+    public function reset(): void
     {
         // TODO: Implement reset() method.
     }

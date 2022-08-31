@@ -159,7 +159,7 @@ EOT
      *
      * @return bool|int|void
      */
-    protected function loadFixtures(InputInterface $input, OutputInterface $output, string $type = null)
+    protected function loadFixtures(InputInterface $input, OutputInterface $output, ?string $type = null)
     {
         if (null === $type) {
             return;

@@ -10,6 +10,7 @@
 
 namespace Propel\Bundle\PropelBundle\DataFixtures;
 
+use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Map\DatabaseMap;
 use Propel\Runtime\Propel;
 use Symfony\Component\Finder\Finder;
@@ -19,33 +20,19 @@ use Symfony\Component\Finder\Finder;
  */
 abstract class AbstractDataHandler
 {
-    /**
-     * @var string
-     */
-    protected $rootDir;
-
-    /**
-     * @var \PDO
-     */
-    protected $con;
-
-    /**
-     * @var DatabaseMap
-     */
-    protected $dbMap;
-
-    /**
-     * @var array
-     */
-    protected $datasources = array();
+    protected string $rootDir;
+    protected ?ConnectionInterface $con = null;
+    protected ?DatabaseMap $dbMap = null;
+    /** @var array{database?: array{connections: array<string, array<string, mixed>>}} */
+    protected array $datasources = array();
 
     /**
      * Default constructor
      *
-     * @param string $rootDir     The root directory.
-     * @param array  $datasources
+     * @param string                                                                    $rootDir     The root directory.
+     * @param array{database?: array{connections: array<string, array<string, mixed>>}} $datasources
      */
-    public function __construct($rootDir, array $datasources)
+    public function __construct(string $rootDir, array $datasources)
     {
         $this->rootDir = $rootDir;
         $this->datasources = $datasources;
@@ -54,7 +41,7 @@ abstract class AbstractDataHandler
     /**
      * @return string
      */
-    protected function getRootDir()
+    protected function getRootDir(): string
     {
         return $this->rootDir;
     }
@@ -62,9 +49,9 @@ abstract class AbstractDataHandler
     /**
      * Load Map builders.
      *
-     * @param string $connectionName A connection name.
+     * @param string|null $connectionName A connection name.
      */
-    protected function loadMapBuilders($connectionName = null)
+    protected function loadMapBuilders(?string $connectionName = null): void
     {
         if (null !== $this->dbMap) {
             return;
@@ -98,7 +85,7 @@ abstract class AbstractDataHandler
      *
      * @return boolean
      */
-    protected function isInDatabase($class, $connectionName)
+    protected function isInDatabase(string $class, string $connectionName): bool
     {
         return constant($class.'::DATABASE_NAME') === $connectionName;
     }
@@ -112,7 +99,7 @@ abstract class AbstractDataHandler
      *
      * @return string|null
      */
-    private function guessFullClassName($path, $shortClassName)
+    private function guessFullClassName(string $path, string $shortClassName): ?string
     {
         $array = array();
         $path  = str_replace('/', '\\', $path);
@@ -142,7 +129,7 @@ abstract class AbstractDataHandler
      *
      * @return string[]
      */
-    protected function getModelSearchPaths($connectionName)
+    protected function getModelSearchPaths(string $connectionName): array
     {
         $searchPath = array();
 
