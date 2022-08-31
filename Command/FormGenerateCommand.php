@@ -36,7 +36,7 @@ class FormGenerateCommand extends AbstractCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('propel:form:generate')
@@ -60,9 +60,9 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $kernel = $this->getApplication()->getKernel();
+        $kernel = $this->getKernel();
         $models = $input->getArgument('models');
         $force = $input->getOption('force');
 
@@ -93,11 +93,11 @@ EOT
      *
      * @param BundleInterface $bundle   The bundle for which the FormTypes will be generated.
      * @param Database        $database The database to inspect.
-     * @param array           $models   The models to build.
+     * @param string[]        $models   The models to build.
      * @param OutputInterface $output   An OutputInterface instance
      * @param boolean         $force    Override files if present.
      */
-    protected function createFormTypeFromDatabase(BundleInterface $bundle, Database $database, $models, OutputInterface $output, $force = false)
+    protected function createFormTypeFromDatabase(BundleInterface $bundle, Database $database, array $models, OutputInterface $output, bool $force = false): void
     {
         $dir = $this->createDirectory($bundle, $output);
 
@@ -151,7 +151,7 @@ EOT
      * @param boolean         $force  Is the write forced?
      * @param OutputInterface $output An OutputInterface instance.
      */
-    protected function writeFormType(BundleInterface $bundle, Table $table, \SplFileInfo $file, $force, OutputInterface $output)
+    protected function writeFormType(BundleInterface $bundle, Table $table, \SplFileInfo $file, bool $force, OutputInterface $output): void
     {
         $formBuilder = new FormBuilder();
         $formTypeContent = $formBuilder->buildFormType($bundle, $table, self::DEFAULT_FORM_TYPE_DIRECTORY);
@@ -164,7 +164,7 @@ EOT
      * @param  \SplFileInfo $file
      * @return string
      */
-    protected function getRelativeFileName(\SplFileInfo $file)
+    protected function getRelativeFileName(\SplFileInfo $file): string
     {
         return substr(str_replace(realpath($this->getContainer()->getParameter('kernel.project_dir') . '/../'), '', $file), 1);
     }
@@ -176,7 +176,7 @@ EOT
      *
      * @return GeneratorConfig
      */
-    protected function getGeneratorConfig(InputInterface $input)
+    protected function getGeneratorConfig(InputInterface $input): GeneratorConfig
     {
         $generatorConfig = null;
 
@@ -190,12 +190,12 @@ EOT
     /**
      * Get the ModelManager to use.
      *
-     * @param InputInterface $input   An InputInterface instance.
-     * @param array          $schemas A list of schemas.
+     * @param InputInterface                                       $input   An InputInterface instance.
+     * @param array<string, array{?BundleInterface, \SplFileInfo}> $schemas A list of schemas.
      *
      * @return ModelManager
      */
-    protected function getModelManager(InputInterface $input, array $schemas)
+    protected function getModelManager(InputInterface $input, array $schemas): ModelManager
     {
         $schemaFiles = array();
         foreach ($schemas as $data) {

@@ -10,6 +10,7 @@
 
 namespace Propel\Bundle\PropelBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 
@@ -23,7 +24,7 @@ class GraphvizGenerateCommand extends WrappedCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
 
@@ -38,7 +39,7 @@ class GraphvizGenerateCommand extends WrappedCommand
     /**
      * {@inheritdoc}
      */
-    protected function createSubCommandInstance()
+    protected function createSubCommandInstance(): Command
     {
         return new BaseGraphvizGenerateCommand();
     }
@@ -46,7 +47,7 @@ class GraphvizGenerateCommand extends WrappedCommand
     /**
      * {@inheritdoc}
      */
-    protected function getSubCommandArguments(InputInterface $input)
+    protected function getSubCommandArguments(InputInterface $input): array
     {
         return array(
             '--output-dir' => $input->getOption('output-dir'),

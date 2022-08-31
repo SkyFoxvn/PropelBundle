@@ -10,6 +10,7 @@
 
 namespace Propel\Bundle\PropelBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 
@@ -21,7 +22,7 @@ class SqlBuildCommand extends WrappedCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
 
@@ -37,7 +38,7 @@ class SqlBuildCommand extends WrappedCommand
     /**
      * {@inheritdoc}
      */
-    protected function createSubCommandInstance()
+    protected function createSubCommandInstance(): Command
     {
         return new \Propel\Generator\Command\SqlBuildCommand();
     }
@@ -45,9 +46,10 @@ class SqlBuildCommand extends WrappedCommand
     /**
      * {@inheritdoc}
      */
-    protected function getSubCommandArguments(InputInterface $input)
+    protected function getSubCommandArguments(InputInterface $input): array
     {
-        $defaultSqlDir = $this->getContainer()->getParameter('propel.configuration')['paths']['sqlDir'];
+        $config = $this->getConfig();
+        $defaultSqlDir = $config['paths']['sqlDir'];
 
         return array(
             '--connection'  => $this->getConnections($input->getOption('connection')),

@@ -24,7 +24,7 @@ class BuildCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('propel:build')
@@ -42,9 +42,9 @@ class BuildCommand extends Command
     /**
      * @see Command
      *
-     * @throws \InvalidArgumentException When the target directory does not exist
+     * @throws \Symfony\Component\Console\Exception\ExceptionInterface
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!$input->getOption('sql')) {
             $in = new ArrayInput(array(

@@ -47,7 +47,7 @@ class FixturesLoadCommand extends AbstractCommand
     /**
      * @see Command
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('propel:fixtures:load')
@@ -119,7 +119,7 @@ EOT
         if (null !== $this->bundle) {
             $this->absoluteFixturesPath = $this->getFixturesPath($this->bundle);
         } else {
-            $this->absoluteFixturesPath = realpath($this->getApplication()->getKernel()->getProjectDir() . '/' . $input->getOption('dir'));
+            $this->absoluteFixturesPath = realpath($this->getKernel()->getProjectDir() . '/' . $input->getOption('dir'));
         }
 
         if (!$this->absoluteFixturesPath && !file_exists($this->absoluteFixturesPath)) {
@@ -158,9 +158,11 @@ EOT
      *
      * @param \Symfony\Component\Console\Input\InputInterface   $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param string                                            $type   If specified, only fixtures with the given type will be loaded (yml, xml).
+     * @param string|null                                       $type   If specified, only fixtures with the given type will be loaded (yml, xml).
+     *
+     * @return bool|int|void
      */
-    protected function loadFixtures(InputInterface $input, OutputInterface $output, $type = null)
+    protected function loadFixtures(InputInterface $input, OutputInterface $output, string $type = null)
     {
         if (null === $type) {
             return;
@@ -194,8 +196,10 @@ EOT
      *
      * @param \Symfony\Component\Console\Input\InputInterface   $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return int
      */
-    protected function loadSqlFixtures(InputInterface $input, OutputInterface $output)
+    protected function loadSqlFixtures(InputInterface $input, OutputInterface $output): int
     {
         $tmpdir = $this->getCacheDir();
         $datas  = $this->getFixtureFiles('sql');
@@ -234,7 +238,7 @@ EOT
      *
      * @param string $tmpdir The temporary directory path.
      */
-    protected function prepareCache($tmpdir)
+    protected function prepareCache(string $tmpdir): void
     {
         // Recreate a propel directory in cache
         $this->filesystem->remove($tmpdir);
@@ -244,7 +248,7 @@ EOT
     /**
      * Insert SQL
      */
-    protected function insertSql($connectionName, InputInterface $input, OutputInterface $output)
+    protected function insertSql(string $connectionName, InputInterface $input, OutputInterface $output): bool
     {
         $parameters = array(
             '--connection'  => array($connectionName),
@@ -275,12 +279,12 @@ EOT
      * Returns the fixtures files to load.
      *
      * @param string $type The extension of the files.
-     * @param string $in   The directory in which we search the files. If null,
+     * @param string|null $in   The directory in which we search the files. If null,
      *                     we'll use the absoluteFixturesPath property.
      *
-     * @return \Iterator An iterator through the files.
+     * @return \ArrayIterator<int, \SplFileInfo>|Finder
      */
-    protected function getFixtureFiles($type = 'sql', $in = null)
+    protected function getFixtureFiles(string $type = 'sql', ?string $in = null)
     {
         $finder = new Finder();
         $finder->sort(function ($a, $b) {

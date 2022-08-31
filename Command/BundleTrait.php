@@ -10,11 +10,13 @@
 namespace Propel\Bundle\PropelBundle\Command;
 
 use App\AppBundle;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * @author Moritz Schroeder <moritz.schroeder@molabs.de>
@@ -24,7 +26,7 @@ trait BundleTrait
     /**
      * @return ContainerInterface
      */
-    protected abstract function getContainer();
+    abstract protected function getContainer(): ContainerInterface;
 
     /**
      * Returns the selected bundle.
@@ -33,10 +35,11 @@ trait BundleTrait
      * @param InputInterface  $input
      * @param OutputInterface $output
      *
-     * @return BundleInterface|null
+     * @return BundleInterface
      */
-    protected function getBundle(InputInterface $input, OutputInterface $output)
+    protected function getBundle(InputInterface $input, OutputInterface $output): BundleInterface
     {
+        /** @var KernelInterface $kernel */
         $kernel = $this
             ->getContainer()
             ->get('kernel');
@@ -44,7 +47,7 @@ trait BundleTrait
         if ($input->hasArgument('bundle') && '@' === substr($input->getArgument('bundle'), 0, 1)) {
             return $kernel->getBundle(substr($input->getArgument('bundle'), 1));
         }
-        
+
         $bundles = $kernel->getBundles();
         $bundles[AppBundle::NAME] = new AppBundle($this->getContainer());
 
@@ -55,7 +58,9 @@ trait BundleTrait
             $question = new Question($question);
             $question->setAutocompleterValues($bundleNames);
 
-            $bundleName = $this->getHelperSet()->get('question')->ask($input, $output, $question);
+            /** @var QuestionHelper $questionHelper */
+            $questionHelper = $this->getHelperSet()->get('question');
+            $bundleName = $questionHelper->ask($input, $output, $question);
 
             // old bundle structure and new one
             if (in_array($bundleName, $bundleNames) || empty(trim($bundleName)) || $bundleName == AppBundle::NAME) {
@@ -64,7 +69,7 @@ trait BundleTrait
             $output->writeln(sprintf('<bg=red>Bundle "%s" does not exist.</bg>', $bundleName));
         } while (true);
 
-        if (empty($bundleName) || (!empty($bundleName) && $bundleName == AppBundle::NAME)) {
+        if (empty($bundleName) || $bundleName === AppBundle::NAME) {
             return $bundles[AppBundle::NAME];
         }
 

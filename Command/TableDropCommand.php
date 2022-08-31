@@ -21,14 +21,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author Kévin Gomez <contact@kevingomez.fr>
  */
-class TableDropCommand extends Command
+class TableDropCommand extends AbstractCommand
 {
     use FormattingHelpers;
 
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('propel:table:drop')
@@ -43,7 +43,7 @@ class TableDropCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $connection = Propel::getConnection($input->getOption('connection'));
         $adapter = Propel::getAdapter($connection->getName());
@@ -64,7 +64,7 @@ class TableDropCommand extends Command
         $nbTable = count($tablesToDelete);
         $tablePlural = (($nbTable > 1 || $nbTable == 0) ? 's' : '' );
 
-        if ('prod' === $this->getApplication()->getKernel()->getEnvironment()) {
+        if ('prod' === $this->getKernel()->getEnvironment()) {
             $count = $nbTable ?: 'all';
 
             $this->writeSection(

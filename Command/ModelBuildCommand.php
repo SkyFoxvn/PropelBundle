@@ -10,6 +10,7 @@
 
 namespace Propel\Bundle\PropelBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,7 +25,7 @@ class ModelBuildCommand extends WrappedCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
 
@@ -41,7 +42,7 @@ class ModelBuildCommand extends WrappedCommand
     /**
      * {@inheritdoc}
      */
-    protected function createSubCommandInstance()
+    protected function createSubCommandInstance(): Command
     {
         return new BaseModelBuildCommand();
     }
@@ -49,9 +50,9 @@ class ModelBuildCommand extends WrappedCommand
     /**
      * {@inheritdoc}
      */
-    protected function getSubCommandArguments(InputInterface $input)
+    protected function getSubCommandArguments(InputInterface $input): array
     {
-        $outputDir = $this->getApplication()->getKernel()->getProjectDir().'/';
+        $outputDir = $this->getKernel()->getProjectDir().'/';
 
         return array(
             '--output-dir' => $outputDir,

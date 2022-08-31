@@ -10,6 +10,7 @@
 
 namespace Propel\Bundle\PropelBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,7 +23,7 @@ class SqlInsertCommand extends WrappedCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('propel:sql:insert')
@@ -36,7 +37,7 @@ class SqlInsertCommand extends WrappedCommand
     /**
      * {@inheritdoc}
      */
-    protected function createSubCommandInstance()
+    protected function createSubCommandInstance(): Command
     {
         return new \Propel\Generator\Command\SqlInsertCommand();
     }
@@ -44,10 +45,10 @@ class SqlInsertCommand extends WrappedCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($input->getOption('force')) {
-            parent::execute($input, $output);
+            return parent::execute($input, $output);
         } else {
             $output->writeln('<error>You have to use --force to execute all SQL statements.</error>');
             return 1;
@@ -57,9 +58,10 @@ class SqlInsertCommand extends WrappedCommand
     /**
      * {@inheritdoc}
      */
-    protected function getSubCommandArguments(InputInterface $input)
+    protected function getSubCommandArguments(InputInterface $input): array
     {
-        $defaultSqlDir = $this->getContainer()->getParameter('propel.configuration')['paths']['sqlDir'];
+        $config = $this->getConfig();
+        $defaultSqlDir = $config['paths']['sqlDir'];
 
         return array(
             '--connection'  => $this->getConnections($input->getOption('connection')),

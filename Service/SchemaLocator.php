@@ -18,10 +18,18 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class SchemaLocator
 {
-    protected $fileLocator;
-    protected $configuration;
+    /** @var ContainerInterface */
     protected $container;
+    /** @var FileLocatorInterface */
+    protected $fileLocator;
+    /** @var array{paths: array{schemaDir: string, sqlDir: string, migrationDir: string, composerDir: string, loaderScriptDir: string}} */
+    protected $configuration;
 
+    /**
+     * @param ContainerInterface $container
+     * @param FileLocatorInterface $fileLocator
+     * @param array{paths: array{schemaDir: string, sqlDir: string, migrationDir: string, composerDir: string, loaderScriptDir: string}} $configuration
+     */
     public function __construct(ContainerInterface $container, FileLocatorInterface $fileLocator, array $configuration)
     {
         $this->container = $container;
@@ -29,7 +37,12 @@ class SchemaLocator
         $this->configuration = $configuration;
     }
 
-    public function locateFromBundlesAndConfiguration(array $bundles)
+    /**
+     * @param array<string, BundleInterface> $bundles
+     *
+     * @return array<string, array{?BundleInterface, \SplFileInfo}>
+     */
+    public function locateFromBundlesAndConfiguration(array $bundles): array
     {
         if (empty($bundles[AppBundle::NAME])) {
             $bundles[AppBundle::NAME] = new AppBundle($this->container);
@@ -46,7 +59,12 @@ class SchemaLocator
         return $schemas;
     }
 
-    public function locateFromBundles(array $bundles)
+    /**
+     * @param array<string, BundleInterface> $bundles
+     *
+     * @return array<string, array{BundleInterface, \SplFileInfo}>
+     */
+    public function locateFromBundles(array $bundles): array
     {
         $schemas = array();
         foreach ($bundles as $bundle) {
@@ -57,12 +75,14 @@ class SchemaLocator
     }
 
     /**
-     * @param \Symfony\Component\HttpKernel\Bundle\BundleInterface
+     * @param BundleInterface $bundle
+     *
+     * @return array<string, array{BundleInterface, \SplFileInfo}>
      */
-    public function locateFromBundle(BundleInterface $bundle)
+    public function locateFromBundle(BundleInterface $bundle): array
     {
         // no bundle/bundle
-        $dir = ($bundle->getName() == AppBundle::NAME)? $bundle->getPath().'/config' : $bundle->getPath().'/Resources/config';
+        $dir = ($bundle->getName() === AppBundle::NAME)? $bundle->getPath().'/config' : $bundle->getPath().'/Resources/config';
 
         $finalSchemas = array();
 

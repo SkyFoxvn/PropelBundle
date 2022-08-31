@@ -11,6 +11,8 @@
 namespace Propel\Bundle\PropelBundle\Command;
 
 use Propel\Runtime\Propel;
+use Propel\Runtime\ServiceContainer\StandardServiceContainer;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,7 +29,7 @@ class DatabaseDropCommand extends AbstractCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('propel:database:drop')
@@ -51,7 +53,7 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!$input->getOption('force')) {
             $output->writeln('<error>You have to use the "--force" option to drop the database.</error>');
@@ -59,7 +61,7 @@ EOT
             return \Propel\Generator\Command\AbstractCommand::CODE_ERROR;
         }
 
-        if ('prod' === $this->getApplication()->getKernel()->getEnvironment()) {
+        if ('prod' === $this->getKernel()->getEnvironment()) {
             $this->writeSection($output, 'WARNING: you are about to drop a database in production !', 'bg=red;fg=white');
 
             if (false === $this->askConfirmation($input, $output, 'Are you sure ? (y/n) ', false)) {
@@ -87,6 +89,7 @@ EOT
         $manager = new ConnectionManagerSingle();
         $manager->setConfiguration($this->getTemporaryConfiguration($config));
 
+        /** @var StandardServiceContainer $serviceContainer */
         $serviceContainer = Propel::getServiceContainer();
         $serviceContainer->setAdapterClass($connectionName, $config['adapter']);
         $serviceContainer->setConnectionManager($connectionName, $manager);
@@ -107,10 +110,10 @@ EOT
      *
      * @see https://github.com/doctrine/doctrine1/blob/master/lib/Doctrine/Connection.php#L1491
      *
-     * @param  array $config A Propel connection configuration.
-     * @return array
+     * @param  array<string, mixed> $config A Propel connection configuration.
+     * @return array<string, mixed>
      */
-    private function getTemporaryConfiguration($config)
+    private function getTemporaryConfiguration(array $config): array
     {
         $dbName = $this->parseDbName($config['dsn']);
 

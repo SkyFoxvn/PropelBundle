@@ -10,6 +10,8 @@
 
 namespace Propel\Bundle\PropelBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,21 +24,21 @@ abstract class WrappedCommand extends AbstractCommand
     /**
      * Creates the instance of the Propel sub-command to execute.
      *
-     * @return \Symfony\Component\Console\Command\Command
+     * @return Command
      */
-    abstract protected function createSubCommandInstance();
+    abstract protected function createSubCommandInstance(): Command;
 
     /**
      * Returns all the arguments and options needed by the Propel sub-command.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    abstract protected function getSubCommandArguments(InputInterface $input);
+    abstract protected function getSubCommandArguments(InputInterface $input): array;
 
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addOption('platform',  null, InputOption::VALUE_OPTIONAL, 'The platform')
@@ -45,8 +47,10 @@ abstract class WrappedCommand extends AbstractCommand
 
     /**
      * {@inheritdoc}
+     *
+     * @throws ExceptionInterface
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $params = $this->getSubCommandArguments($input);
         $command = $this->createSubCommandInstance();

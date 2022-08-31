@@ -10,6 +10,7 @@
 
 namespace Propel\Bundle\PropelBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,7 +25,7 @@ class DatabaseReverseCommand extends WrappedCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
 
@@ -42,7 +43,7 @@ class DatabaseReverseCommand extends WrappedCommand
     /**
      * {@inheritdoc}
      */
-    protected function createSubCommandInstance()
+    protected function createSubCommandInstance(): Command
     {
         return new BaseDatabaseReverseCommand();
     }
@@ -50,7 +51,7 @@ class DatabaseReverseCommand extends WrappedCommand
     /**
      * {@inheritdoc}
      */
-    protected function getSubCommandArguments(InputInterface $input)
+    protected function getSubCommandArguments(InputInterface $input): array
     {
         return array(
             '--output-dir'      => $input->getOption('output-dir'),

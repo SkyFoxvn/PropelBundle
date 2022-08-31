@@ -13,6 +13,7 @@ namespace Propel\Bundle\PropelBundle\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -31,7 +32,7 @@ class FixturesDumpCommand extends AbstractCommand
     /**
      * @see Command
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('propel:fixtures:dump')
@@ -55,10 +56,10 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $fixtureDir = $input->getOption('dir') ?: $this->defaultFixturesDir;
-        $path = realpath($this->getApplication()->getKernel()->getProjectDir() . '/') . '/' . $fixtureDir;
+        $path = realpath($this->getKernel()->getProjectDir() . '/') . '/' . $fixtureDir;
 
         if (!file_exists($path)) {
             $output->writeln("<info>The $path folder does not exists.</info>");
@@ -67,7 +68,7 @@ EOT
                 $fs->mkdir($path);
                 $this->writeNewDirectory($output, $path);
             } else {
-                throw new \IOException(sprintf('Unable to find the %s folder', $path));
+                throw new IOException(sprintf('Unable to find the %s folder', $path));
             }
         }
 
