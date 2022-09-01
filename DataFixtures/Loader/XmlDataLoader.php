@@ -20,7 +20,7 @@ class XmlDataLoader extends AbstractDataLoader
     /**
      * {@inheritdoc}
      */
-    protected function transformDataToArray($file)
+    protected function transformDataToArray(string $file): array
     {
         $xml = simplexml_load_file($file);
 
@@ -28,10 +28,10 @@ class XmlDataLoader extends AbstractDataLoader
     }
 
     /**
-     * @param  SimpleXMLElement $xml
-     * @return array
+     * @param  \SimpleXMLElement|false $xml
+     * @return array<string, array<string, array<string, string>>>
      */
-    protected function simpleXmlToArray($xml)
+    protected function simpleXmlToArray($xml): array
     {
         $array = array();
         if ($xml instanceof \SimpleXMLElement) {

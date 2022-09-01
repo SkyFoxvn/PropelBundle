@@ -1,0 +1,41 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to an undefined method Propel\\\\Runtime\\\\ActiveRecord\\\\ActiveRecordInterface\\:\\:getByName\\(\\)\\.$#"
+			count: 1
+			path: DataFixtures/Loader/AbstractDataLoader.php
+
+		-
+			message: "#^Call to an undefined method Propel\\\\Runtime\\\\ActiveRecord\\\\ActiveRecordInterface\\:\\:save\\(\\)\\.$#"
+			count: 1
+			path: DataFixtures/Loader/AbstractDataLoader.php
+
+		-
+			message: "#^Call to an undefined method Propel\\\\Runtime\\\\ActiveRecord\\\\ActiveRecordInterface\\:\\:setByPosition\\(\\)\\.$#"
+			count: 1
+			path: DataFixtures/Loader/AbstractDataLoader.php
+
+		-
+			message: "#^Call to an undefined method Propel\\\\Runtime\\\\ActiveRecord\\\\ActiveRecordInterface\\:\\:toArray\\(\\)\\.$#"
+			count: 1
+			path: DataFixtures/Loader/AbstractDataLoader.php
+
+		-
+			message: "#^Call to an undefined method Propel\\\\Runtime\\\\Map\\\\TableMap\\:\\:doDeleteAll\\(\\)\\.$#"
+			count: 1
+			path: DataFixtures/Loader/AbstractDataLoader.php
+
+		-
+			message: "#^Call to an undefined method Propel\\\\Runtime\\\\Map\\\\TableMap\\:\\:getFieldnames\\(\\)\\.$#"
+			count: 1
+			path: DataFixtures/Loader/AbstractDataLoader.php
+
+		-
+			message: "#^Variable \\$relatedSetter might not be defined\\.$#"
+			count: 1
+			path: DataFixtures/Loader/AbstractDataLoader.php
+
+		-
+			message: "#^Variable \\$setter might not be defined\\.$#"
+			count: 1
+			path: DataFixtures/Loader/AbstractDataLoader.php

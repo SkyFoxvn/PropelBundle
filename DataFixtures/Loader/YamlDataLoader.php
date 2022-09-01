@@ -11,7 +11,7 @@
 namespace Propel\Bundle\PropelBundle\DataFixtures\Loader;
 
 use Faker\Generator;
-use Symfony\Component\Yaml\ParseException;
+use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -39,7 +39,7 @@ class YamlDataLoader extends AbstractDataLoader
     /**
      * {@inheritdoc}
      */
-    protected function transformDataToArray($file)
+    protected function transformDataToArray(string $file): array
     {
         if (strpos($file, "\n") === false && is_file($file)) {
             if (false === is_readable($file)) {

@@ -20,8 +20,8 @@ interface DataLoaderInterface
     /**
      * Loads data from a set of files.
      *
-     * @param array  $files          A set of files containing datas to load.
-     * @param string $connectionName The Propel connection name
+     * @param string[] $files          A set of files containing datas to load.
+     * @param string   $connectionName The Propel connection name
      */
-    public function load(array $files, $connectionName);
+    public function load(array $files, string $connectionName): int;
 }
