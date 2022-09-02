@@ -11,11 +11,9 @@
 namespace Propel\Bundle\PropelBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\Config\FileLocator;
 
 /**
@@ -26,12 +24,11 @@ use Symfony\Component\Config\FileLocator;
 class PropelExtension extends Extension
 {
     /**
-     * Loads the Propel configuration.
+     * {@inheritdoc}
      *
-     * @param array            $configs   An array of configuration settings
-     * @param ContainerBuilder $container A ContainerBuilder instance
+     * @throws \Exception
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = $this->getConfiguration($configs, $container);
         $config = $this->processConfiguration($configuration, $configs);
@@ -66,7 +63,13 @@ class PropelExtension extends Extension
         }
     }
 
-    public function getConfiguration(array $config, ContainerBuilder $container)
+    /**
+     * @param array<mixed> $config
+     * @param ContainerBuilder $container
+     *
+     * @return Configuration
+     */
+    public function getConfiguration(array $config, ContainerBuilder $container): Configuration
     {
         return new Configuration($container->getParameter('kernel.debug'), $container->getParameter('kernel.project_dir'));
     }
@@ -76,7 +79,7 @@ class PropelExtension extends Extension
      *
      * @return string The XSD base path
      */
-    public function getXsdValidationBasePath()
+    public function getXsdValidationBasePath(): string
     {
         return __DIR__.'/../Resources/config/schema';
     }
@@ -88,7 +91,7 @@ class PropelExtension extends Extension
      *
      * @return string The alias
      */
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'propel';
     }

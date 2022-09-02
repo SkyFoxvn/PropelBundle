@@ -68,7 +68,6 @@ class PanelController extends AbstractController
         try {
             $dataFetcher = $con->query('EXPLAIN ' . $queries[$query]['sql']);
             $results = array();
-            // @phpstan-ignore-next-line
             while (($results[] = $dataFetcher->fetch(\PDO::FETCH_ASSOC)));
         } catch (\Exception $e) {
             return new Response('<div class="error">This query cannot be explained.</div>');

@@ -39,3 +39,18 @@ parameters:
 			message: "#^Variable \\$setter might not be defined\\.$#"
 			count: 1
 			path: DataFixtures/Loader/AbstractDataLoader.php
+
+		-
+			message: "#^Call to an undefined method Propel\\\\Runtime\\\\ActiveRecord\\\\ActiveRecordInterface\\:\\:getPrimaryKey\\(\\)\\.$#"
+			count: 1
+			path: Form/ChoiceList/PropelChoiceLoader.php
+
+		-
+			message: "#^Method Propel\\\\Bundle\\\\PropelBundle\\\\Form\\\\ChoiceList\\\\PropelChoiceLoader\\:\\:__construct\\(\\) has parameter \\$queryObject with no value type specified in iterable type Propel\\\\Runtime\\\\ActiveQuery\\\\ModelCriteria\\.$#"
+			count: 1
+			path: Form/ChoiceList/PropelChoiceLoader.php
+
+		-
+			message: "#^Property Propel\\\\Bundle\\\\PropelBundle\\\\Form\\\\ChoiceList\\\\PropelChoiceLoader\\:\\:\\$query type has no value type specified in iterable type Propel\\\\Runtime\\\\ActiveQuery\\\\ModelCriteria\\.$#"
+			count: 1
+			path: Form/ChoiceList/PropelChoiceLoader.php

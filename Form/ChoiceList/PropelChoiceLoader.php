@@ -25,49 +25,27 @@ use Symfony\Component\Form\ChoiceList\Loader\ChoiceLoaderInterface;
  */
 class PropelChoiceLoader implements ChoiceLoaderInterface
 {
-    /**
-     * @var ChoiceListFactoryInterface
-     */
-    protected $factory;
-    
-    /**
-     * @var string
-     */
-    protected $class;
-
-    /**
-     * @var ModelCriteria
-     */
-    protected $query;
-
+    protected ChoiceListFactoryInterface $factory;
+    protected string $class;
+    protected ModelCriteria $query;
     /**
      * The fields of which the identifier of the underlying class consists
      *
      * This property should only be accessed through identifier.
      *
-     * @var array
+     * @var \Propel\Runtime\Map\ColumnMap[]
      */
-    protected $identifier = array();
-
+    protected array $identifier = array();
     /**
      * Whether to use the identifier for index generation.
-     *
-     * @var bool
      */
-    protected $identifierAsIndex = false;
-
-    /**
-     * @var ChoiceListInterface
-     */
-    protected $choiceList;
+    protected bool $identifierAsIndex = false;
+    protected ?ChoiceListInterface $choiceList = null;
 
     /**
      * PropelChoiceListLoader constructor.
-     *
-     * @param ChoiceListFactoryInterface $factory
-     * @param string                     $class
      */
-    public function __construct(ChoiceListFactoryInterface $factory, $class, ModelCriteria $queryObject, $useAsIdentifier = null)
+    public function __construct(ChoiceListFactoryInterface $factory, string $class, ModelCriteria $queryObject, ?string $useAsIdentifier = null)
     {
         $this->factory = $factory;
         $this->class = $class;
@@ -85,14 +63,14 @@ class PropelChoiceLoader implements ChoiceLoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadChoiceList($value = null)
+    public function loadChoiceList($value = null): ChoiceListInterface
     {
         if ($this->choiceList) {
             return $this->choiceList;
         }
 
         $models = iterator_to_array($this->query->find());
-        
+
         $this->choiceList = $this->factory->createListFromChoices($models, $value);
 
         return $this->choiceList;
@@ -101,13 +79,13 @@ class PropelChoiceLoader implements ChoiceLoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadChoicesForValues(array $values, $value = null)
+    public function loadChoicesForValues(array $values, $value = null): array
     {
         // Performance optimization
         if (empty($values)) {
             return array();
         }
-        
+
         // Optimize performance in case we have a single-field identifier
         if (!$this->choiceList && $this->identifierAsIndex && current($this->identifier) instanceof ColumnMap) {
             $phpName = current($this->identifier)->getPhpName();
@@ -136,7 +114,7 @@ class PropelChoiceLoader implements ChoiceLoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadValuesForChoices(array $choices, $value = null)
+    public function loadValuesForChoices(array $choices, $value = null): array
     {
         // Performance optimization
         if (empty($choices)) {
@@ -167,7 +145,7 @@ class PropelChoiceLoader implements ChoiceLoaderInterface
      *
      * @return bool
      */
-    private function isScalar(ColumnMap $column)
+    private function isScalar(ColumnMap $column): bool
     {
         return in_array(
             $column->getPdoType(),
@@ -188,9 +166,9 @@ class PropelChoiceLoader implements ChoiceLoaderInterface
      *
      * @param object $model The model for which to get the identifier
      *
-     * @return array
+     * @return array<mixed>
      */
-    private function getIdentifierValues($model)
+    private function getIdentifierValues(object $model): array
     {
         if (!$model instanceof $this->class) {
             return array();
@@ -209,5 +187,4 @@ class PropelChoiceLoader implements ChoiceLoaderInterface
 
         return $model->getPrimaryKeys();
     }
-
 }

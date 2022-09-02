@@ -18,18 +18,18 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
  */
 class Configuration extends PropelConfiguration
 {
-    private $debug;
-    private $defaultDir;
-    private $kernelDir;
+    private bool $debug;
+    private string $defaultDir;
+    private string $kernelDir;
 
-    public function __construct($debug, $kernelDir)
+    public function __construct(bool $debug, string $kernelDir)
     {
         $this->debug = $debug;
         $this->defaultDir = $kernelDir.'/propel';
         $this->kernelDir = $kernelDir;
     }
 
-    protected function addPathsSection(ArrayNodeDefinition $node)
+    protected function addPathsSection(ArrayNodeDefinition $node): void
     {
         $node
             ->children()
@@ -47,7 +47,7 @@ class Configuration extends PropelConfiguration
         ;
     }
 
-    protected function addRuntimeSection(ArrayNodeDefinition $node)
+    protected function addRuntimeSection(ArrayNodeDefinition $node): void
     {
         $node
             ->children()
@@ -115,7 +115,7 @@ class Configuration extends PropelConfiguration
             ->end();
     }
 
-    protected function addDatabaseSection(ArrayNodeDefinition $node)
+    protected function addDatabaseSection(ArrayNodeDefinition $node): void
     {
         $validAdapters = array('mysql', 'pgsql', 'sqlite', 'mssql', 'sqlsrv', 'oracle');
 
