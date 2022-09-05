@@ -109,7 +109,7 @@ class ModelType extends AbstractType
      * @internal This method is public to be usable as callback. It should not
      *           be used in user code.
      */
-    public static function createChoiceName($choice, $key, $value)
+    public static function createChoiceName($choice, $key, $value): string
     {
         return str_replace('-', '_', (string) $value);
     }
@@ -117,7 +117,7 @@ class ModelType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if ($options['multiple']) {
             $builder
@@ -129,7 +129,7 @@ class ModelType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $choiceLoader = function (Options $options) {
             // Unless the choices are given explicitly, load them on demand

@@ -37,12 +37,13 @@ use Symfony\Component\Form\Guess\ValueGuess;
  */
 class TypeGuesser implements FormTypeGuesserInterface
 {
-    private $cache = array();
+    /** @var array<string, TableMap|ColumnMap> */
+    private array $cache = array();
 
     /**
      * {@inheritDoc}
      */
-    public function guessType($class, $property)
+    public function guessType(string $class, string $property): ?TypeGuess
     {
         if (!$table = $this->getTable($class)) {
             return new TypeGuess(TextType::class, array(), Guess::LOW_CONFIDENCE);
@@ -66,8 +67,8 @@ class TypeGuesser implements FormTypeGuesserInterface
             } elseif ($relation->getType() === RelationMap::MANY_TO_MANY) {
                 if (strtolower($property) == strtolower($relation->getPluralName())) {
                     return new TypeGuess(ModelType::class, array(
-                        'class'     => $relation->getLocalTable()->getClassName(),
-                        'multiple'  => true,
+                        'class'    => $relation->getLocalTable()->getClassName(),
+                        'multiple' => true,
                     ), Guess::HIGH_CONFIDENCE);
                 }
             }
@@ -124,17 +125,19 @@ class TypeGuesser implements FormTypeGuesserInterface
     /**
      * {@inheritDoc}
      */
-    public function guessRequired($class, $property)
+    public function guessRequired(string $class, string $property)
     {
         if ($column = $this->getColumn($class, $property)) {
             return new ValueGuess($column->isNotNull(), Guess::HIGH_CONFIDENCE);
         }
+
+        return null;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function guessMaxLength($class, $property)
+    public function guessMaxLength(string $class, string $property): ?ValueGuess
     {
         if ($column = $this->getColumn($class, $property)) {
             if ($column->isText()) {
@@ -148,12 +151,14 @@ class TypeGuesser implements FormTypeGuesserInterface
                     return new ValueGuess(null, Guess::MEDIUM_CONFIDENCE);
             }
         }
+
+        return null;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function guessPattern($class, $property)
+    public function guessPattern(string $class, string $property): ?ValueGuess
     {
         if ($column = $this->getColumn($class, $property)) {
             switch ($column->getType()) {
@@ -164,6 +169,8 @@ class TypeGuesser implements FormTypeGuesserInterface
                     return new ValueGuess(null, Guess::MEDIUM_CONFIDENCE);
             }
         }
+
+        return null;
     }
 
     /**
@@ -171,7 +178,7 @@ class TypeGuesser implements FormTypeGuesserInterface
      *
      * @return TableMap|null
      */
-    protected function getTable($class)
+    protected function getTable(string $class)
     {
         if (isset($this->cache[$class])) {
             return $this->cache[$class];
@@ -192,7 +199,7 @@ class TypeGuesser implements FormTypeGuesserInterface
      *
      * @return ColumnMap|null
      */
-    protected function getColumn($class, $property)
+    protected function getColumn(string $class, string $property)
     {
         if (isset($this->cache[$class.'::'.$property])) {
             return $this->cache[$class.'::'.$property];

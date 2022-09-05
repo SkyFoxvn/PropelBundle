@@ -32,21 +32,21 @@ class PropelParamConverter implements ParamConverterInterface
 
     /**
      * list of column/value to use with filterBy
-     * @var array
+     * @var array<string, string>
      */
-    protected $filters = array();
+    protected array $filters = array();
 
     /**
      * list of route parameters to exclude from the conversion process
-     * @var array
+     * @var string[]
      */
-    protected $exclude = array();
+    protected array $exclude = array();
 
     /**
      * list of with option use to hydrate related object
-     * @var array
+     * @var array<string|array<array-key, string>>
      */
-    protected $withs;
+    protected array $withs;
 
     /**
      * name of method use to call a query method
@@ -156,9 +156,10 @@ class PropelParamConverter implements ParamConverterInterface
      *
      * @return bool
      */
-    public function supports(ParamConverter $configuration)
+    public function supports(ParamConverter $configuration): bool
     {
-        if (null === ($classname = $configuration->getClass())) {
+        $classname = $configuration->getClass();
+        if (!$classname) {
             return false;
         }
 
@@ -167,7 +168,7 @@ class PropelParamConverter implements ParamConverterInterface
         }
 
         // Propel Class?
-        $class = new \ReflectionClass($configuration->getClass());
+        $class = new \ReflectionClass($classname);
         if ($class->implementsInterface('\Propel\Runtime\ActiveRecord\ActiveRecordInterface')) {
             return true;
         }
@@ -182,8 +183,10 @@ class PropelParamConverter implements ParamConverterInterface
      * @param Request $request
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
-    protected function findPk($classQuery, Request $request)
+    protected function findPk(string $classQuery, Request $request)
     {
         if (in_array($this->pk, $this->exclude) || !$request->attributes->has($this->pk)) {
             return false;
@@ -205,6 +208,8 @@ class PropelParamConverter implements ParamConverterInterface
      * @param Request $request
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     protected function findOneBy($classQuery, Request $request)
     {
@@ -239,7 +244,7 @@ class PropelParamConverter implements ParamConverterInterface
      *
      * @throws \Exception
      */
-    protected function getQuery($classQuery)
+    protected function getQuery(string $classQuery): ModelCriteria
     {
         $query = $classQuery::create();
 
@@ -265,13 +270,13 @@ class PropelParamConverter implements ParamConverterInterface
     /**
      * Return the valid join Criteria base on the with parameter
      *
-     * @param array $with
+     * @param string[] $with
      *
      * @return string
      *
      * @throws \Exception
      */
-    protected function getValidJoin($with)
+    protected function getValidJoin(array $with): string
     {
         switch (trim(str_replace(array('_', 'JOIN'), '', strtoupper($with[1])))) {
             case 'LEFT':
@@ -286,5 +291,4 @@ class PropelParamConverter implements ParamConverterInterface
                 only "left", "right" or "inner" are allowed for join option',
                 var_export($with, true)));
     }
-
 }

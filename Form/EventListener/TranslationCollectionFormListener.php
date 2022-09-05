@@ -22,23 +22,31 @@ use Symfony\Component\Form\FormEvent;
  */
 class TranslationCollectionFormListener implements EventSubscriberInterface
 {
-    private $i18nClass;
-    private $languages;
+    private string $i18nClass;
+    /** @var string[] */
+    private array $languages;
 
-    public function __construct($languages, $i18nClass)
+    /**
+     * @param string[] $languages
+     * @param string $i18nClass
+     */
+    public function __construct(array $languages, string $i18nClass)
     {
         $this->i18nClass = $i18nClass;
         $this->languages = $languages;
     }
 
-    public static function getSubscribedEvents()
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedEvents(): array
     {
         return array(
             FormEvents::PRE_SET_DATA => array('preSetData', 1),
         );
     }
 
-    public function preSetData(FormEvent $event)
+    public function preSetData(FormEvent $event): void
     {
         $form = $event->getForm();
         $data = $event->getData();

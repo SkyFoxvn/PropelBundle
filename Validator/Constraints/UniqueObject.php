@@ -25,22 +25,22 @@ class UniqueObject extends Constraint
     /**
      * @var string
      */
-    public $message = 'A {{ object_class }} object already exists with {{ fields }}';
+    public string $message = 'A {{ object_class }} object already exists with {{ fields }}';
 
     /**
      * @var string Used to merge multiple fields in the message
      */
-    public $messageFieldSeparator = ' and ';
+    public string $messageFieldSeparator = ' and ';
 
     /**
-     * @var array
+     * @var array<mixed>|string
      */
     public $fields = array();
 
     /**
-     * @var string Used to set the path where the error will be attached, default is global.
+     * @var string|null Used to set the path where the error will be attached, default is global.
      */
-    public $errorPath;
+    public ?string $errorPath = null;
 
     public function __construct($options = null)
     {

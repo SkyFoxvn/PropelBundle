@@ -28,12 +28,12 @@ class TranslationCollectionType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        if (!isset($options['entry_options']['data_class']) || null === $options['entry_options']['data_class']) {
+        if (!isset($options['entry_options']['data_class'])) {
             throw new MissingOptionsException('data_class must be set');
         }
-        if (!isset($options['entry_options']['columns']) || null === $options['entry_options']['columns']) {
+        if (!isset($options['entry_options']['columns'])) {
             throw new MissingOptionsException('columns must be set');
         }
 
@@ -44,7 +44,7 @@ class TranslationCollectionType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired(array(
             'languages'
@@ -77,7 +77,7 @@ class TranslationCollectionType extends AbstractType
         return 'propel_translation_collection';
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->getBlockPrefix();
     }
