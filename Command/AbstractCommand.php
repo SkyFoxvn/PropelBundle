@@ -449,9 +449,9 @@ abstract class AbstractCommand extends Command
     /**
      * Reads the platform class from the configuration
      *
-     * @return string The platform class name.
+     * @return string|null The platform class name.
      */
-    protected function getPlatform(): string
+    protected function getPlatform(): ?string
     {
         $config = $this->getConfig();
 
