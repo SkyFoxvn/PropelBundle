@@ -60,6 +60,11 @@ class TranslatableItem implements ActiveRecordInterface
         $this->setId($primaryKey);
     }
 
+    public function isPrimaryKeyNull(): bool
+    {
+        return null === $this->getId();
+    }
+
     public function isModified()
     {
         return false;

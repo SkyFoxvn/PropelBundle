@@ -24,4 +24,9 @@ class ReadOnlyItem implements ActiveRecordInterface
     {
         return 42;
     }
+
+    public function isPrimaryKeyNull(): bool
+    {
+        return null === $this->getPrimaryKey();
+    }
 }

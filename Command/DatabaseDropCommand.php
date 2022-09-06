@@ -86,13 +86,13 @@ EOT
         }
 
 
-        $manager = new ConnectionManagerSingle();
+        $manager = new ConnectionManagerSingle($connectionName);
         $manager->setConfiguration($this->getTemporaryConfiguration($config));
 
         /** @var StandardServiceContainer $serviceContainer */
         $serviceContainer = Propel::getServiceContainer();
         $serviceContainer->setAdapterClass($connectionName, $config['adapter']);
-        $serviceContainer->setConnectionManager($connectionName, $manager);
+        $serviceContainer->setConnectionManager($manager);
 
         $connection = Propel::getConnection($connectionName);
 

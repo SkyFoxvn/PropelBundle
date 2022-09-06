@@ -78,18 +78,18 @@ class ItemQuery
         $resellerTable = new TableMap();
         $resellerTable->setClassName('\Foo\Reseller');
 
+        $defaultLocalTable = new TableMap('local');
+        $defaultForeignTable = new TableMap('foreign');
+
         // relations
-        $mainAuthorRelation = new RelationMap('MainAuthor');
+        $mainAuthorRelation = new RelationMap('MainAuthor', $defaultLocalTable, $authorTable);
         $mainAuthorRelation->setType(RelationMap::MANY_TO_ONE);
-        $mainAuthorRelation->setForeignTable($authorTable);
 
-        $authorRelation = new RelationMap('Author');
+        $authorRelation = new RelationMap('Author', $defaultLocalTable, $authorTable);
         $authorRelation->setType(RelationMap::ONE_TO_MANY);
-        $authorRelation->setForeignTable($authorTable);
 
-        $resellerRelation = new RelationMap('Reseller');
+        $resellerRelation = new RelationMap('Reseller', $resellerTable, $defaultForeignTable);
         $resellerRelation->setType(RelationMap::MANY_TO_MANY);
-        $resellerRelation->setLocalTable($resellerTable);
 
         return array(
             $mainAuthorRelation,

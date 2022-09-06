@@ -415,10 +415,12 @@ abstract class BookQuery extends ModelCriteria
     /**
      * Deletes all rows from the book table.
      *
-     * @param  ConnectionInterface $con the connection to use
-     * @return int                 The number of affected rows (if supported by underlying database driver).
+     * @param ConnectionInterface|null $con the connection to use
+     * @return int                          The number of affected rows (if supported by underlying database driver).
+     *
+     * @throws PropelException
      */
-    public function doDeleteAll(ConnectionInterface $con = null)
+    public function doDeleteAll(?ConnectionInterface $con = null): int
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(BookTableMap::DATABASE_NAME);
@@ -447,15 +449,13 @@ abstract class BookQuery extends ModelCriteria
     /**
      * Performs a DELETE on the database, given a ChildBook or Criteria object OR a primary key value.
      *
-     * @param  mixed               $values Criteria or ChildBook object or primary key or array of primary keys
-     *                                     which is used to create the DELETE statement
-     * @param  ConnectionInterface $con    the connection to use
-     * @return int                 The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
-     *                                    if supported by native driver or if emulated using Propel.
-     * @throws PropelException     Any exceptions caught during processing will be
-     *                                    rethrown wrapped into a PropelException.
+     * @param ConnectionInterface|null $con the connection to use
+     * @return int                          The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
+     *                                      if supported by native driver or if emulated using Propel.
+     * @throws PropelException              Any exceptions caught during processing will be
+     *                                      rethrown wrapped into a PropelException.
      */
-     public function delete(ConnectionInterface $con = null)
+     public function delete(?ConnectionInterface $con = null): int
      {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(BookTableMap::DATABASE_NAME);

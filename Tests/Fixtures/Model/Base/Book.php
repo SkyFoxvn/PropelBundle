@@ -1069,7 +1069,7 @@ abstract class Book implements ActiveRecordInterface
      * Returns true if the primary key for this object is null.
      * @return boolean
      */
-    public function isPrimaryKeyNull()
+    public function isPrimaryKeyNull(): bool
     {
         return null === $this->getId();
     }

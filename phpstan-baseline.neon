@@ -16,11 +16,6 @@ parameters:
 			path: DataFixtures/Loader/AbstractDataLoader.php
 
 		-
-			message: "#^Call to an undefined method Propel\\\\Runtime\\\\ActiveRecord\\\\ActiveRecordInterface\\:\\:toArray\\(\\)\\.$#"
-			count: 1
-			path: DataFixtures/Loader/AbstractDataLoader.php
-
-		-
 			message: "#^Call to an undefined method Propel\\\\Runtime\\\\Map\\\\TableMap\\:\\:doDeleteAll\\(\\)\\.$#"
 			count: 1
 			path: DataFixtures/Loader/AbstractDataLoader.php
@@ -46,27 +41,7 @@ parameters:
 			path: Form/ChoiceList/PropelChoiceLoader.php
 
 		-
-			message: "#^Method Propel\\\\Bundle\\\\PropelBundle\\\\Form\\\\ChoiceList\\\\PropelChoiceLoader\\:\\:__construct\\(\\) has parameter \\$queryObject with no value type specified in iterable type Propel\\\\Runtime\\\\ActiveQuery\\\\ModelCriteria\\.$#"
-			count: 1
-			path: Form/ChoiceList/PropelChoiceLoader.php
-
-		-
-			message: "#^Property Propel\\\\Bundle\\\\PropelBundle\\\\Form\\\\ChoiceList\\\\PropelChoiceLoader\\:\\:\\$query type has no value type specified in iterable type Propel\\\\Runtime\\\\ActiveQuery\\\\ModelCriteria\\.$#"
-			count: 1
-			path: Form/ChoiceList/PropelChoiceLoader.php
-
-		-
-			message: "#^PHPDoc tag @var for variable \\$query has no value type specified in iterable type Propel\\\\Runtime\\\\ActiveQuery\\\\ModelCriteria\\.$#"
-			count: 3
-			path: Form/Type/ModelType.php
-
-		-
 			message: "#^Call to an undefined method Propel\\\\Runtime\\\\ActiveQuery\\\\ModelCriteria\\:\\:filterByPrimaryKey\\(\\)\\.$#"
-			count: 1
-			path: Request/ParamConverter/PropelParamConverter.php
-
-		-
-			message: "#^Method Propel\\\\Bundle\\\\PropelBundle\\\\Request\\\\ParamConverter\\\\PropelParamConverter\\:\\:getQuery\\(\\) return type has no value type specified in iterable type Propel\\\\Runtime\\\\ActiveQuery\\\\ModelCriteria\\.$#"
 			count: 1
 			path: Request/ParamConverter/PropelParamConverter.php
 
