@@ -35,7 +35,7 @@ class PropelFactory implements UserProviderFactoryInterface
      * @param string $id
      * @param array<string, mixed> $config
      */
-    public function create(ContainerBuilder $container, string $id, array $config): void
+    public function create(ContainerBuilder $container, $id, $config): void
     {
         $container
             ->setDefinition($id, new ChildDefinition($this->providerId))

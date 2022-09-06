@@ -59,8 +59,10 @@ class PropelUserProvider implements UserProviderInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @param string $username
      */
-    public function loadUserByUsername(string $username): UserInterface
+    public function loadUserByUsername($username): UserInterface
     {
         $queryClass = $this->queryClass;
         $query      = $queryClass::create();
@@ -95,8 +97,10 @@ class PropelUserProvider implements UserProviderInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @param string $class
      */
-    public function supportsClass(string $class): bool
+    public function supportsClass($class): bool
     {
         return $class === $this->class;
     }
