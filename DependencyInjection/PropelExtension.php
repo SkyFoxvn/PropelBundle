@@ -10,8 +10,10 @@
 
 namespace Propel\Bundle\PropelBundle\DependencyInjection;
 
+use Symfony\Bundle\WebProfilerBundle\DependencyInjection\WebProfilerExtension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\HttpKernel\Profiler\Profiler;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -57,8 +59,8 @@ class PropelExtension extends Extension
             $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
             $loader->load('services.yml');
 
-            if (($env = $container->getParameter('kernel.environment')) === 'dev') {
-                $loader->load('services_dev.yml');
+            if (($env = $container->getParameter('kernel.environment')) === 'dev' && class_exists(WebProfilerExtension::class)) {
+                $container->setAlias(Profiler::class, 'profiler');
             }
         }
     }
