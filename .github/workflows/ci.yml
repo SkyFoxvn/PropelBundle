@@ -64,6 +64,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ matrix.php-version }}, ${{ matrix.symfony-version }}
-          file: Tests/coverage.xml
+          directory: ./Tests/
+          file: ./coverage.xml
           fail_ci_if_error: true
           verbose: true
