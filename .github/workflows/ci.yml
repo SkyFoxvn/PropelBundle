@@ -43,11 +43,6 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Composer install (Symfony version ${{ matrix.symfony-version }})
-        if: matrix.php-version == '8.0'
-        run: composer install --prefer-dist --no-interaction --ignore-platform-req=php
-
-      - name: Composer install (Symfony version ${{ matrix.symfony-version }})
-        if: matrix.php-version != '8.0'
         run: composer install --prefer-dist --no-interaction
 
       - name: Run tests
