@@ -50,10 +50,6 @@ jobs:
         if: matrix.php-version != '8.0'
         run: composer install --prefer-dist --no-interaction
 
-      - name: Setup PCOV
-        run: |
-          composer require pcov/clobber
-
       - name: Run tests
         if: matrix.php-version != '8.0'
         run: vendor/bin/phpunit --verbose --coverage-clover=Tests/coverage.xml
@@ -67,7 +63,6 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          flags: ${{ matrix.php-version }}, ${{ matrix.symfony-version }}
           directory: ./Tests/
           file: ./coverage.xml
           fail_ci_if_error: true
