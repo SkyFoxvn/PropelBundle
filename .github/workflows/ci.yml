@@ -63,7 +63,6 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./Tests/
-          file: ./coverage.xml
+          file: ./Tests/coverage.xml
           fail_ci_if_error: true
           verbose: true
