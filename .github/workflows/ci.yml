@@ -53,7 +53,6 @@ jobs:
       - name: Setup PCOV
         run: |
           composer require pcov/clobber
-          vendor/bin/pcov clobber
 
       - name: Run tests
         if: matrix.php-version != '8.0'
