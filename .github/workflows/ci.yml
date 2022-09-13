@@ -19,6 +19,10 @@ jobs:
         php-version: [ '7.2', '7.3', '7.4', '8.0' ]
         symfony-version: [ '4.4', '5.0', '5.1', '5.2', '5.3', '5.4' ]
     steps:
+      - name: Setup PCOV
+        run: |
+          composer require pcov/clobber
+          vendor/bin/pcov clobber
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
         with:
