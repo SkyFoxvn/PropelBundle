@@ -16,8 +16,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: [ '7.4', '8.0' ]
-        symfony-version: [ '4.4', '5.0', '5.1', '5.2', '5.3', '5.4' ]
+        php-version: [ '7.4', '8.0', '8.1' ]
+        symfony-version: [ '4.4', '5.0', '5.1', '5.2', '5.3', '5.4', '6.0', '6.1' ]
     steps:
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
@@ -54,7 +54,6 @@ jobs:
         run: vendor/bin/phpunit --verbose
 
       - name: Code Coverage Report
-        if: matrix.php-version != '8.0'
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
