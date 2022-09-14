@@ -10,4 +10,14 @@ class User extends BaseUser implements UserInterface
     public function eraseCredentials()
     {
     }
+
+    public function getRoles(): array
+    {
+        // TODO: Implement getRoles() method.
+    }
+
+    public function getUserIdentifier(): string
+    {
+        // TODO: Implement getUserIdentifier() method.
+    }
 }

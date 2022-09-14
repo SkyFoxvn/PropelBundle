@@ -61,6 +61,9 @@ XML;
         }
 
         $this->con = Propel::getServiceContainer()->getConnection('default');
+        // added for tests only!
+        // convert numeric values to string otherwise they will be converted to integer in PHP 8.1
+        $this->con->setAttribute(\PDO::ATTR_STRINGIFY_FETCHES, true);
         $this->con->beginTransaction();
     }
 

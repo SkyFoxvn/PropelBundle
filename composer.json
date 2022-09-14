@@ -16,19 +16,19 @@
     "require": {
         "php": ">=7.4",
         "propel/propel": "2.0.0-beta2",
-        "symfony/console": "^2.8|^3.0|^4.0|^5.0",
-        "symfony/dependency-injection": "^2.8|^3.0|^4.0|^5.0",
-        "symfony/framework-bundle": "^2.8|^3.0|^4.0|^5.0",
-        "symfony/security-bundle": "^4.0|^5.0|^5.1"
+        "symfony/console": "^5.0||^6.0",
+        "symfony/dependency-injection": "^5.0||^6.0",
+        "symfony/framework-bundle": "^5.0||^6.0",
+        "symfony/security-bundle": "^5.0||^6.0"
     },
     "require-dev": {
         "ext-json": "*",
         "ext-simplexml": "*",
         "ext-pdo": "*",
         "phpunit/phpunit": "^8.0|^9.0",
-        "sensio/framework-extra-bundle": "^4.0|^5.0",
-        "symfony/form": "^2.8|^3.0|^4.0|^5.0",
-        "fzaninotto/faker": "^1.5|^1.9",
+        "sensio/framework-extra-bundle": "^6.0",
+        "symfony/form": "^5.0|^6.0",
+        "fzaninotto/faker": "*",
         "mikey179/vfsstream": "^1.6",
         "phpstan/phpstan": "^1.8",
         "phpstan/extension-installer": "^1.1",

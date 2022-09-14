@@ -104,4 +104,9 @@ class PropelUserProvider implements UserProviderInterface
     {
         return $class === $this->class;
     }
+
+    public function loadUserByIdentifier(string $identifier): UserInterface
+    {
+        return $this->loadUserByUsername($identifier);
+    }
 }
