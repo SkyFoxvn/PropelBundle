@@ -11,9 +11,9 @@
 
 namespace Propel\Bundle\PropelBundle\Security\User;
 
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
 /**
@@ -75,7 +75,12 @@ class PropelUserProvider implements UserProviderInterface
         }
 
         if (null === $user = $query->findOne()) {
-            throw new UsernameNotFoundException(sprintf('User "%s" not found.', $username));
+            // because this branch work with both s5 and s6
+            if (class_exists('Symfony\Component\Security\Core\Exception\UsernameNotFoundException')) {
+                throw new \Symfony\Component\Security\Core\Exception\UsernameNotFoundException(sprintf('User "%s" not found.', $username));
+            } else {
+                throw new UserNotFoundException(sprintf('User "%s" not found.', $username));
+            }
         }
 
         return $user;
