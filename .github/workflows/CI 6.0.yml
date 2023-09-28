@@ -27,7 +27,7 @@ jobs:
           coverage: pcov
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.MY_PAT }}
 
@@ -36,7 +36,7 @@ jobs:
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Composer cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
@@ -54,9 +54,9 @@ jobs:
         run: vendor/bin/phpunit --verbose --coverage-clover=Tests/coverage.xml
 
       - name: Code Coverage Report
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: Tests/coverage.xml
+          files: ./Tests/coverage.xml
           fail_ci_if_error: true
           verbose: true
