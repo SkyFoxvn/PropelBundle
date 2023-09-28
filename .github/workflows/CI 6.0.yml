@@ -47,16 +47,17 @@ jobs:
 
       - name: Run tests
         if: matrix.php-version >= '8.1'
-        run: vendor/bin/phpunit --display-deprecations --display-notices --display-warnings --coverage-clover=./Tests/coverage.xml
+        run: vendor/bin/phpunit --display-deprecations --display-notices --display-warnings --coverage-clover=Tests/coverage.xml
 
       - name: Run tests
         if: matrix.php-version < '8.1'
-        run: vendor/bin/phpunit --verbose --coverage-clover=./Tests/coverage.xml
+        run: vendor/bin/phpunit --verbose --coverage-clover=Tests/coverage.xml
 
       - name: Code Coverage Report
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./Tests/coverage.xml
+          directory: ./Tests/
+          files: ./coverage.xml
           fail_ci_if_error: true
           verbose: true
