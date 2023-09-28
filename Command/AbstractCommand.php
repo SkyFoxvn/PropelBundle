@@ -51,7 +51,7 @@ abstract class AbstractCommand extends Command
         $this->output = $output;
         $this->cacheDir = $this->getKernel()->getCacheDir().'/propel';
 
-        if ($input->hasArgument('bundle') && '@' === substr($input->getArgument('bundle'), 0, 1)) {
+        if ($input->hasArgument('bundle') && !empty($input->getArgument('bundle')) && '@' === substr($input->getArgument('bundle'), 0, 1)) {
             $this->bundle = $this
                 ->getContainer()
                 ->get('kernel')
