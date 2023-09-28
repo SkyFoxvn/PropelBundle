@@ -19,4 +19,14 @@
       <directory>./Resources</directory>
     </exclude>
   </source>
+  <filter>
+    <whitelist addUncoveredFilesFromWhitelist="true" processUncoveredFilesFromWhitelist="true">
+      <directory suffix=".php">./</directory>
+      <exclude>
+        <directory suffix=".php">./Tests</directory>\
+        <directory suffix=".php">./vendor</directory>
+        <directory suffix=".php">./Resources</directory>
+      </exclude>
+    </whitelist>
+  </filter>
 </phpunit>
