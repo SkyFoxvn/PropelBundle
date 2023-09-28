@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" colors="true" processIsolation="false" stopOnFailure="false" bootstrap="vendor/autoload.php" xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/schema/10.0.xsd" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" colors="true" processIsolation="false" stopOnFailure="false" bootstrap="vendor/autoload.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.3/phpunit.xsd" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
   <php>
     <!-- <server name="SYMFONY" value="/path/to/symfony" /> -->
   </php>
@@ -18,14 +18,4 @@
       <directory>./Resources</directory>
     </exclude>
   </source>
-  <filter>
-    <whitelist addUncoveredFilesFromWhitelist="true" processUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">./</directory>
-      <exclude>
-        <directory suffix=".php">./Tests</directory>\
-        <directory suffix=".php">./vendor</directory>
-        <directory suffix=".php">./Resources</directory>
-      </exclude>
-    </whitelist>
-  </filter>
 </phpunit>
