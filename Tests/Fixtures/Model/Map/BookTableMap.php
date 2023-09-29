@@ -44,6 +44,11 @@ class BookTableMap extends TableMap
     const TABLE_NAME = 'book';
 
     /**
+     * The PHP name of this class (PascalCase)
+     */
+    const TABLE_PHP_NAME = 'Book';
+
+    /**
      * The related Propel class for this table
      */
     const OM_CLASS = '\\Propel\\Bundle\\PropelBundle\\Tests\\Fixtures\\Model\\Book';
