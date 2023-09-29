@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         php-version: [ '7.4', '8.0', '8.1' ]
-        symfony-version: [ '4.4', '5.0', '5.1', '5.2', '5.3', '5.4', '6.0', '6.1' ]
+        symfony-version: [ '4.4', '5.0', '5.1', '5.2', '5.3', '5.4', '6.0', '6.1', '6.2', '6.3' ]
     steps:
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
@@ -27,16 +27,16 @@ jobs:
           coverage: pcov
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.MY_PAT }}
 
       - name: Composer get cache directory
         id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Composer cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
