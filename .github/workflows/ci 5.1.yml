@@ -48,10 +48,10 @@ jobs:
       - name: Run tests
         run: vendor/bin/phpunit --verbose --coverage-clover=Tests/coverage.xml
 
-      - name: Code Coverage Report
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./Tests/coverage.xml
-          fail_ci_if_error: true
-          verbose: true
+#      - name: Code Coverage Report
+#        uses: codecov/codecov-action@v3
+#        with:
+#          token: ${{ secrets.CODECOV_TOKEN }}
+#          file: ./Tests/coverage.xml
+#          fail_ci_if_error: true
+#          verbose: true
