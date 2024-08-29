@@ -28,8 +28,6 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.MY_PAT }}
 
       - name: Composer get cache directory
         id: composer-cache
