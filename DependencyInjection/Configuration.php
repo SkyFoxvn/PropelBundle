@@ -222,6 +222,7 @@ class Configuration extends PropelConfiguration
                                     ->children()
                                         ->scalarNode('tableType')->defaultValue('InnoDB')->treatNullLike('InnoDB')->end()
                                         ->scalarNode('tableEngineKeyword')->defaultValue('ENGINE')->end()
+                                        ->scalarNode('uuidColumnType')->defaultValue('binary')->end()
                                     ->end()
                                 ->end()
                                 ->arrayNode('sqlite')
