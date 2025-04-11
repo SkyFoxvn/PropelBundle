@@ -45,11 +45,11 @@ jobs:
       - name: Composer update (Symfony version ${{ matrix.symfony-version }})
         run: composer install --prefer-dist --no-interaction
 
-      - name: Run tests
+      - name: Run tests >= 8.1
         if: matrix.php-version >= '8.1'
         run: vendor/bin/phpunit --display-deprecations --display-notices --display-warnings --coverage-clover=Tests/coverage.xml
 
-      - name: Run tests
+      - name: Run tests < 8.1
         if: matrix.php-version < '8.1'
         run: vendor/bin/phpunit --verbose --coverage-clover=Tests/coverage.xml
 

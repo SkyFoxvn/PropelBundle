@@ -20,6 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Guess\Guess;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class TypeGuesserTest extends TestCase
 {
@@ -102,6 +103,7 @@ class TypeGuesserTest extends TestCase
     /**
      * @dataProvider dataProviderForGuessType
      */
+    #[DataProvider('dataProviderForGuessType')]
     public function testGuessType($property, $type, $confidence, $multiple = null)
     {
         $value = $this->guesser->guessType(self::CLASS_NAME, $property);

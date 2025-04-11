@@ -62,9 +62,9 @@ class SchemaLocatorTest extends TestCase
 
         $this->kernelMock = $this->getMockBuilder(Kernel::class)->disableOriginalConstructor()->getMock();
         $this->kernelMock->method('getProjectDir')->willReturn($this->root->url());
-        $this->kernelMock->method('locateResource')->will($this->returnCallback( function($argument) {
+        $this->kernelMock->method('locateResource')->willReturnCallback(function($argument) {
             return (str_replace('@', __DIR__ . '/../Fixtures/', $argument));
-        }));
+        });
 
         // attach kernel service to container
         $this->container = $this->getContainer();
