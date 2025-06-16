@@ -46,7 +46,9 @@ jobs:
 #        run: composer config extra.symfony.require "${{ matrix.symfony-version }}"
 
       - name: Composer update (Symfony version ${{ matrix.symfony-version }})
-        run: composer update --prefer-dist --no-interaction
+        run: |
+          composer config --no-plugins allow-plugins.symfony/flex true
+          composer update --prefer-dist --no-interaction
         env:
           SYMFONY_REQUIRE: "${{ matrix.symfony-version }}"
 
