@@ -21,6 +21,17 @@ jobs:
         php-version: [ '8.0.2', '8.1', '8.2', '8.3' ]
         symfony-version: [ '6.0', '6.1', '6.2', '6.3', '6.4', '7.0', '7.1' ]
         exclude:
+          # well it's a stupid solution but it works
+          - php-version: '8.0.2'
+            symfony-version: '6.1'
+          - php-version: '8.0.2'
+            symfony-version: '6.2'
+          - php-version: '8.0.2'
+            symfony-version: '6.3'
+          - php-version: '8.0.2'
+            symfony-version: '6.4'
+          - php-version: '8.0.2'
+            symfony-version: '7.0'
           - php-version: '8.0.2'
             symfony-version: '7.1'
     steps:
