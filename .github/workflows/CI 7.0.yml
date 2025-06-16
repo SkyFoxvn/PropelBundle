@@ -45,7 +45,7 @@ jobs:
       - name: Composer update (Symfony version ${{ matrix.symfony-version }})
         run: |
           composer config extra.symfony.require "${{ matrix.symfony-version }}"
-          composer install --prefer-dist --no-interaction
+          composer update --prefer-dist --no-interaction
 
       - name: Run tests >= 8.1
         if: matrix.php-version >= '8.1'
