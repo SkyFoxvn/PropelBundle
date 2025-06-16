@@ -23,6 +23,7 @@
         "symfony/yaml": "^6.0||^7.0"
     },
     "require-dev": {
+        "symfony/flex": "*",
         "ext-json": "*",
         "ext-simplexml": "*",
         "ext-pdo": "*",
@@ -41,12 +42,18 @@
     "config": {
         "allow-plugins": {
             "phpstan/extension-installer": true,
-            "symfony/flex": false
+            "symfony/flex": true
         }
     },
     "extra": {
         "symfony": {
-            "require": "6.*"
+            "require": "6.3"
+        }
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
         }
     }
 }
