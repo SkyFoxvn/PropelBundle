@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         php-version: [ '8.0.2', '8.1', '8.2', '8.3' ]
-        symfony-version: [ '6.0', '6.1', '6.2', '6.3', '6.4', '7.0', '7.1' ]
+        symfony-version: [ '6.0', '6.1', '6.2', '6.3', '6.4', '7.0', '7.1', , '7.2', , '7.3' ]
         exclude:
           # excluded because of "symfony minimum required" PHP version
           # well it's a stupid solution but it works
@@ -35,10 +35,19 @@ jobs:
             symfony-version: '7.0'
           - php-version: '8.0.2'
             symfony-version: '7.1'
+          - php-version: '8.0.2'
+            symfony-version: '7.2'
+          - php-version: '8.0.2'
+            symfony-version: '7.3'
+          #
           - php-version: '8.1'
             symfony-version: '7.0'
           - php-version: '8.1'
             symfony-version: '7.1'
+          - php-version: '8.1'
+            symfony-version: '7.2'
+          - php-version: '8.1'
+            symfony-version: '7.3'
     steps:
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
