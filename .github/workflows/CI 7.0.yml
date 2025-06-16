@@ -42,7 +42,7 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Composer set symfony version: (Symfony version ${{ matrix.symfony-version }})
+      - name: Composer set symfony version (Symfony version ${{ matrix.symfony-version }})
         run: composer config extra.symfony.require "${{ matrix.symfony-version }}"
 
       - name: Composer update (Symfony version ${{ matrix.symfony-version }})
