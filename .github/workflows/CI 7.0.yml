@@ -73,7 +73,7 @@ jobs:
       - name: Composer update (Symfony version ${{ matrix.symfony-version }})
         run: |
           composer global config --no-plugins allow-plugins.symfony/flex true
-          composer global require --no-progress --no-scripts --no-plugins --no-scripts --no-update symfony/flex
+          composer global require --no-progress --no-scripts --no-plugins symfony/flex
           composer update --prefer-dist --no-interaction
         env:
           SYMFONY_REQUIRE: "${{ matrix.symfony-version }}"
