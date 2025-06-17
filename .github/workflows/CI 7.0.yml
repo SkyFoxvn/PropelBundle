@@ -94,3 +94,36 @@ jobs:
 #          files: ./Tests/coverage.xml
 #          fail_ci_if_error: true
 #          verbose: true
+
+  static-analysis:
+    name: "Static analysis"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup PHP
+        id: setup-php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Composer get cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Composer cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Composer validate
+        run: composer validate
+
+      - name: Composer update (Symfony version ${{ matrix.symfony-version }})
+        run: composer install --prefer-dist --no-interaction
+
+      - name: Run phpstan
+        run: composer run stan

@@ -9,4 +9,3 @@
 /composer.lock
 /.idea/
 /.phpunit.result.cache
-/phpstan-baseline.neon

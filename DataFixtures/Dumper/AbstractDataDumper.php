@@ -26,7 +26,7 @@ abstract class AbstractDataDumper extends AbstractDataHandler implements DataDum
     /**
      * {@inheritdoc}
      */
-    public function dump(?string $filename, string $connectionName = null): void
+    public function dump(?string $filename, ?string $connectionName = null): void
     {
         if (null === $filename || '' === $filename) {
             throw new \RuntimeException('Invalid filename provided.');

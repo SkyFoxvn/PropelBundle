@@ -43,7 +43,7 @@ class PropelExtension extends AbstractExtension
      * @param PropertyAccessorInterface|null  $propertyAccessor
      * @param ChoiceListFactoryInterface|null $choiceListFactory
      */
-    public function __construct(PropertyAccessorInterface $propertyAccessor = null, ChoiceListFactoryInterface $choiceListFactory = null)
+    public function __construct(?PropertyAccessorInterface $propertyAccessor = null, ?ChoiceListFactoryInterface $choiceListFactory = null)
     {
         $this->propertyAccessor = $propertyAccessor ?: PropertyAccess::createPropertyAccessor();
         $this->choiceListFactory = $choiceListFactory ?: new PropertyAccessDecorator(new DefaultChoiceListFactory(), $this->propertyAccessor);

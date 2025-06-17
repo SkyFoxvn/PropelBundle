@@ -34,7 +34,7 @@ class PropelDataCollector extends DataCollector
     /**
      * {@inheritdoc}
      */
-    public function collect(Request $request, Response $response, \Throwable $exception = null): void
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
     {
         $this->data = array(
             'queries'       => $this->cloneVar($this->buildQueries()),

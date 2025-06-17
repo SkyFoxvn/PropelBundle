@@ -67,7 +67,7 @@ class ModelType extends AbstractType
      * @param PropertyAccessorInterface|null  $propertyAccessor
      * @param ChoiceListFactoryInterface|null $choiceListFactory
      */
-    public function __construct(PropertyAccessorInterface $propertyAccessor = null, ChoiceListFactoryInterface $choiceListFactory = null)
+    public function __construct(?PropertyAccessorInterface $propertyAccessor = null, ?ChoiceListFactoryInterface $choiceListFactory = null)
     {
         $this->choiceListFactory = $choiceListFactory ?: new PropertyAccessDecorator(
             new DefaultChoiceListFactory(),

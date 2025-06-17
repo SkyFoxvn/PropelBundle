@@ -20,6 +20,8 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
  * Provides easy to use provisioning for Propel model users.
  *
  * @author William DURAND <william.durand1@gmail.com>
+ *
+ * @template-implements UserProviderInterface<UserInterface>
  */
 class PropelUserProvider implements UserProviderInterface
 {

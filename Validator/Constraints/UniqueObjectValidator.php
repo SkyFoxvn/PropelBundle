@@ -27,14 +27,14 @@ class UniqueObjectValidator extends ConstraintValidator
     /**
      * {@inheritdoc}
      */
-    public function validate($object, Constraint $constraint): void
+    public function validate(mixed $object, Constraint $constraint)
     {
         /** @var UniqueObject $constraint */
         $fields         = (array) $constraint->fields;
         $class          = get_class($object);
         $queryClass     = $class . 'Query';
         $tableMapClass  = $class::TABLE_MAP;
-        $classFields    = $tableMapClass::getFieldnames(TableMap::TYPE_FIELDNAME);
+        $classFields    = $tableMapClass::getFieldNames(TableMap::TYPE_FIELDNAME);
 
         // ensure at least one field is selected
         if (0 === \count($fields)) {

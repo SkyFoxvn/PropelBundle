@@ -145,7 +145,7 @@ abstract class AbstractDataLoader extends AbstractDataHandler implements DataLoa
                 $class = substr($class, 1);
             }
             $tableMap     = $this->dbMap->getTable(constant(constant($class.'::TABLE_MAP').'::TABLE_NAME'));
-            $column_names = $tableMap->getFieldnames(TableMap::TYPE_PHPNAME);
+            $column_names = $tableMap->getFieldNames(TableMap::TYPE_PHPNAME);
 
             foreach ($datas as $key => $values) {
                 // create a new entry in the database
