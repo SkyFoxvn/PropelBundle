@@ -38,6 +38,9 @@
         "symfony/stopwatch": "^6.0"
     },
     "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
     },
     "extra": {
     },
